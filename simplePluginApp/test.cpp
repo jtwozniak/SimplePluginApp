@@ -20,18 +20,18 @@
 int main(int argc, char **argv)
 {
    void * handle;
-   void * (*creaPlugin) ();
    void (*removePlugin) (IPlugin *);
+   IPlugin * (*cretaPlugin) ();
    IPlugin * dllObject;
    char *error;
 
    handle = dlopen ("../../plugin/Release/libplugin.so", RTLD_LAZY);
    returnIfError ();
 
-   creaPlugin = (void * (*) ()) (dlsym (handle, "createPlugin"));
+   cretaPlugin = (IPlugin * (*) ()) (dlsym (handle, "createPlugin"));
    returnIfError ();
 
-   dllObject = (IPlugin *) (*creaPlugin) ();
+   dllObject = (*cretaPlugin) ();
    dllObject -> processData ();
 
    removePlugin = (void (*) (IPlugin *)) (dlsym (handle, "releasePlugin"));
